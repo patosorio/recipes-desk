@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipes Desk</title>
+</head>
+<body>
+    {% for recipe in recipes %}
+        {{ recipe.recipe_name }}<br>
+        {{ recipe.meal }}<br>
+        {{ recipe.ingredients }}<br>
+        {{ recipe.steps }}<br>
+        {{ recipe.ingredients }}<br>
+        {{ recipe.prep_time }}<br>
+        {{ recipe.cook_time }}<br>
+        {{ recipe.servings }}<br>
+        {{ recipe.season }}<br>
+        {{ recipe.keywords }}<br>
+    {% endfor %}
+</body>
+</html>
