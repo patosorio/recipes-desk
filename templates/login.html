@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3 class="center-align grey-text text-darken-4">LOG IN</h3>
+
+
+<div class="row">
+    <form class="col s12 m6 offset-m3 card grey lighten-4" method="POST" action="{{ url_for('login') }}">
+        <div class="carn-panel">
+            <div class="card-content grey-text text-darken-4 center-align"></div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <i class="far fa-heart grey-text text-darken-4 prefix"></i>
+                    <input id="username" name="username" type="text" class="validate">
+                    <label for="username">Username</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <i class="far fa-heart grey-text text-darken-4 prefix"></i>
+                    <input id="password" name="password" autocomplete="on" type="password" class="validate">
+                    <label for="password">Password</label>
+                  </div>
+                </div>
+                <div class="row">   
+                    <button type="submit" class="col s4 offset-m4 btn-large deep-orange lighten-4 grey-text text-darken-4">LOG IN!</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="row">
+    <div class="col s12">
+        <p class="center-align">Sign Up <a href="{{ url_for('sign_up') }}">here. <i class="fas fa-user-plus"></i></a></p>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

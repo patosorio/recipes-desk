@@ -1,54 +1,57 @@
 {% extends "base.html" %}
 {% block content %}
 
+<h3 class="center-align grey-text text-darken-4">SIGN UP!</h3>  
+
+
 <div class="row">
-    <div class="col s12 m6 offset-m3">
-    <h3 class="center-align grey-text text-darken-4">SIGN UP!</h3>
-      <div class="card grey lighten-4">
-        <div class="card-content grey-text text-darken-4 center-align">
-          <div class="row">
-            <form class="col s12" method="POST" action="{{ url_for('sign_up') }}">
-              <div class="row">
-                <div class="input-field col s12">
-                  <i class="far fa-heart grey-text text-darken-4 prefix"></i>
-                  <input id="username" type="text" class="validate">
-                  <label for="username">Username</label>
+    <form class="col s12 m6 offset-m3 card grey lighten-4" method="POST" action="{{ url_for('sign_up') }}">
+        <div class="carn-panel">
+            <div class="card-content grey-text text-darken-4 center-align"></div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <i class="far fa-heart grey-text text-darken-4 prefix"></i>
+                    <input id="username" name="username" type="text" class="validate">
+                    <label for="username">Username</label>
+                  </div>
                 </div>
-              </div>
-              <div class="row">
-                <div class="input-field col s6">
-                  <i class="far fa-heart grey-text text-darken-4 prefix"></i>
-                  <input id="first_name" type="text" class="validate">
-                  <label for="first_name">First Name</label>
+                <div class="row">
+                    <div class="input-field col s6">
+                      <i class="far fa-heart grey-text text-darken-4 prefix"></i>
+                      <input id="fname" name="fname" type="text" class="validate">
+                      <label for="fname">First Name</label>
+                    </div>
+                    <div class="input-field col s6">
+                      <input id="lname" name="lname" type="text" class="validate">
+                      <label for="lname">Last Name</label>
+                    </div>
                 </div>
-                <div class="input-field col s6">
-                  <input id="last_name" type="text" class="validate">
-                  <label for="last_name">Last Name</label>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <i class="far fa-heart grey-text text-darken-4 prefix"></i>
+                    <input id="password" name="password" autocomplete="on" type="password" class="validate">
+                    <label for="password">Password</label>
+                  </div>
                 </div>
-              </div>
-              <div class="row">
-                <div class="input-field col s12">
-                  <i class="far fa-heart grey-text text-darken-4 prefix"></i>
-                  <input id="password" type="password" class="validate">
-                  <label for="password">Password</label>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <i class="far fa-heart grey-text text-darken-4 prefix"></i>
+                    <input id="email" name="email" type="email" class="validate">
+                    <label for="email">Email</label>
+                  </div>
                 </div>
+                <div class="row">
+                  <button type="submit" class="col s4 offset-m4 btn-large deep-orange lighten-4 grey-text text-darken-4">SIGN UP!</button>
               </div>
-              <div class="row">
-                <div class="input-field col s12">
-                  <i class="far fa-heart grey-text text-darken-4 prefix"></i>
-                  <input id="email" type="email" class="validate">
-                  <label for="email">Email</label>
-                </div>
-              </div>
-              <div class="row">
-                <button type="submit" class="col s4 offset-m4 btn-large deep-orange lighten-4 grey-text text-darken-4">SIGN UP!</button>
-              </div>
-            </form>
-          </div>
+            </div>
         </div>
-      </div>
-    </div>
+    </form>
 </div>
 
+<div class="row">
+  <div class="col s12">
+      <p class="center-align">Log In <a href="{{ url_for('login') }}">here. <i class="fas fa-user-plus"></i></a></p>
+  </div>
+</div>
 
 {% endblock %}

@@ -8,3 +8,8 @@ body{
     text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
     padding-left: 15px;
 }
+@media (max-width: 375px) {
+    .sidenav{
+        width: 40%;
+    }
+}
