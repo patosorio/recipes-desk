@@ -1,17 +1,28 @@
 {% extends "base.html" %}
 {% block content %}
 
+<h3 class="center-align grey-text text-darken-4">All Recipes</h3>  
+
     {% for recipe in recipes %}
-        {{ recipe.recipe_name }}<br>
-        {{ recipe.meal }}<br>
-        {{ recipe.ingredients }}<br>
-        {{ recipe.steps }}<br>
-        {{ recipe.ingredients }}<br>
-        {{ recipe.prep_time }}<br>
-        {{ recipe.cook_time }}<br>
-        {{ recipe.servings }}<br>
-        {{ recipe.season }}<br>
-        {{ recipe.keywords }}<br>
+        {% if recipe.is_private == "no" %}
+            <div class="row">
+                <div class="col s12">
+                    <div class="card panel">
+                        <div class="card-content grey-text text-darken-4">
+                            <span class="card-title">{{ recipe.recipe_name }}</span>
+                            <p>{{ recipe.recipe_description }}</p>
+                        </div>
+                        <div class="card-content grey-text text-darken-4">
+                            <span class="card-title"><i class="far fa-clock"></i>{{ recipe.prep_time }}'     <i class="fas fa-users"></i>{{ recipe.servings }}</span>
+                        </div>
+                        <div class="card-action">
+                            <a href="#">Created by_ {{ recipe.created_by }}</a>
+                            <a href="#"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     {% endfor %}
     
 {% endblock %}
