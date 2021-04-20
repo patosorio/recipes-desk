@@ -1,0 +1,10 @@
+body{
+    font-family: Lato;
+    font-weight: light;
+}
+#logo{
+    font-family: 'Nixie One', cursive;
+    font-size: 3rem;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+    padding-left: 15px;
+}

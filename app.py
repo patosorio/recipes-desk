@@ -23,6 +23,11 @@ def get_recipes():
     return render_template("recipes.html", recipes=recipes)
 
 
+@app.route("/sign_up", methods=["GET", "POST"])
+def sign_up():
+    return render_template("sign_up.html")
+
+
 # how and where to run:
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
