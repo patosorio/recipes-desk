@@ -1,6 +1,7 @@
 body{
     font-family: Lato;
     font-weight: light;
+    background-color: rgba(247,247,247,0.5);
 }
 #logo{
     font-family: 'Nixie One', cursive;
@@ -13,3 +14,24 @@ body{
         width: 40%;
     }
 }
+
+.uppercase{
+    text-transform: uppercase;
+}
+
+
+.lowercase{
+    text-transform: lowercase!important;
+}
+
+.underline{
+    text-decoration: underline;
+}
+
+.bold{
+    font-weight: medium;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+}
+
+
+

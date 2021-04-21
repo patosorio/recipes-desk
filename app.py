@@ -21,7 +21,9 @@ mongo = PyMongo(app)
 @app.route("/get_recipes")
 def get_recipes():
     recipes = list(mongo.db.recipes.find())
-    return render_template("recipes.html", recipes=recipes)
+    libraries = mongo.db.libraries.find().sort("library_name", 1)
+    return render_template(
+        "recipes.html", recipes=recipes, libraries=libraries)
 
 
 @app.route("/sign_up", methods=["GET", "POST"])
@@ -83,28 +85,63 @@ def login():
     return render_template("login.html")
 
 
-
 @app.route("/my_recipes/<username>", methods=["GET", "POST"])
 def my_recipes(username):
+    user_recipes = list(mongo.db.recipes.find(
+        {"created_by": session["user"]}))
     username = mongo.db.users.find_one(
         {"username": session["user"]})["username"]
     if session["user"]:
-        return render_template("my_recipes.html", username=username)
+        return render_template("my_recipes.html", username=username, recipes=user_recipes)
         
     return redirect(url_for('login'))
-
 
 
 @app.route("/logout")
 def logout():
     flash("You have been logged out")
     session.pop('user')
+    return redirect(url_for("get_recipes"), recipes=recipes)
+
+
+@app.route("/add_recipe", methods=["GET", "POST"])
+def add_recipe():
+    if request.method == "POST":
+        publish = "yes" if request.form.get("publish") else "no"
+        recipe = {
+            "recipe_name": request.form.get("recipe_name"),
+            "created_by": session["user"],
+            "recipe_description": request.form.get("recipe_description"),
+            "prep_time": request.form.get("prep_time"),
+            "cook_time": request.form.get("cook_time"),
+            "servings": request.form.get("servings"),
+            "publish": publish,
+            "recipe_ingredients": request.form.get("recipe_ingredients"),
+            "steps": request.form.get("steps")
+        }
+        mongo.db.recipes.insert_one(recipe)
+        flash("Your recipe book has been updated!")    
+        return redirect(url_for('my_recipes', username=session['user']))
+
+    return render_template("add_recipe.html")
+
+
+@app.route("/add_saved/<recipe_id>")
+def add_saved(recipe_id):
+    mongo.db.users.update(
+        {"username": session["user"]},
+        {'$addToSet': {"saved": ObjectId(recipe_id)}}
+    )
     return redirect(url_for("get_recipes"))
 
 
-@app.route("/add_recipe")
-def add_recipe():
-    return render_template("add_recipe.html")
+@app.route("/add_library/<recipe_id>")
+def add_library(recipe_id): 
+    mongo.db.libraries.update(
+        {"library_name": request.form.get("library_name")},
+        {'$addToSet': {"saved": ObjectId(recipe_id)}}
+    )
+    return redirect(url_for("get_recipes"))
 
 
 # how and where to run:

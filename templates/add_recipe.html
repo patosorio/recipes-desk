@@ -1,8 +1,72 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h3 class="center-align grey-text text-darken-4">Add Recipe</h3>  
+<h3 class="center-align teal-text uppercase bold">Add a Recipe</h3>    
 
-
+<div class="row">
+    <form class="col s12" method="POST" action="{{ url_for('add_recipe') }}">
+        <div class="row">
+            <div class="input-field col s6">
+                <input id="recipe_name" name="recipe_name" type="text" data-length="40">
+                <label for="recipe_name">Recipe Name</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <textarea id="recipe_description" name="recipe_description" class="materialize-textarea" data-length="200"></textarea>
+                <label for="recipe_description">Recipe description</label>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="input-field col s3">
+                <input id="prep_time" name="prep_time" type="number" class="materialize-textarea" data-length="4"></input>
+                <label for="prep_time">PREP TIME - MIN<i class="teal-text far fa-clock"></i></label>
+            </div>
+            <div class="input-field col s3">
+                <input id="cook_time" name="cook_time" type="number" class="materialize-textarea" data-length="4"></input>
+                <label for="cook_time">COOK TIME - MIN <i class="teal-text far fa-clock"></i></label>
+            </div>
+            <div class="input-field col s3">
+                <input id="servings" name="servings" type="number" class="materialize-textarea" data-length="4"></input>
+                <label for="servings">SERVINGS<i class="teal-text far fa-user"></i></label>
+            </div>
+            <div class="switch col s3">
+                <p>Publish now?</p>
+                <label>
+                  No<input id="publish" name="publish" type="checkbox">
+                  <span class="lever"></span>
+                  Yes
+                </label>
+              </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <textarea id="recipe_ingredients" name="recipe_ingredients" class="materialize-textarea" data-length="120"></textarea>
+                <label for="recipe_ingredients">Separate each ingredient with a ',' coma, don't forget to add the measures.</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <textarea id="steps" name="steps" class="materialize-textarea" data-length="120"></textarea>
+                <label for="steps">Separate each steps with period.</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <select id="library_name" name="library_name" multiple>
+                    <option value="" disabled selected>My libraries</option>
+                    {% for library in libraries %}
+                        <option value="1">{{ library.library_name }}</option>
+                    {% endfor %}
+                </select>
+                <label>Add to a library?</label>
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" class="col s4 offset-m4 btn-large teal darken-2 text-lighten-4">ADD RECIPE</button>
+        </div>
+    </form>
+  </div>
 
 {% endblock %}
