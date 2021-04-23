@@ -85,7 +85,7 @@ def login():
     return render_template("login.html")
 
 
-@app.route("/my_recipes/<username>", methods=["GET", "POST"])
+@app.route("/my_recipes/<username>")
 def my_recipes(username):
     user_recipes = list(mongo.db.recipes.find(
         {"created_by": session["user"]}))
@@ -101,7 +101,7 @@ def my_recipes(username):
 def logout():
     flash("You have been logged out")
     session.pop('user')
-    return redirect(url_for("get_recipes"), recipes=recipes)
+    return get_recipes()
 
 
 @app.route("/add_recipe", methods=["GET", "POST"])
@@ -132,16 +132,52 @@ def add_saved(recipe_id):
         {"username": session["user"]},
         {'$addToSet': {"saved": ObjectId(recipe_id)}}
     )
-    return redirect(url_for("get_recipes"))
+    return get_recipes()
 
 
 @app.route("/add_library/<recipe_id>")
-def add_library(recipe_id): 
+def add_library(recipe_id):
     mongo.db.libraries.update(
         {"library_name": request.form.get("library_name")},
-        {'$addToSet': {"saved": ObjectId(recipe_id)}}
+        {'$addToSet': {"recipes_id": ObjectId(recipe_id)}}
     )
-    return redirect(url_for("get_recipes"))
+    return get_recipes()
+
+
+@app.route("/edit_recipe/<recipe_id>", methods=["GET", "POST"])
+def edit_recipe(recipe_id):
+    if request.method == "POST":
+        publish = "yes" if request.form.get("publish") else "no"
+        submit = {
+            "recipe_name": request.form.get("recipe_name"),
+            "created_by": session["user"],
+            "recipe_description": request.form.get("recipe_description"),
+            "prep_time": request.form.get("prep_time"),
+            "cook_time": request.form.get("cook_time"),
+            "servings": request.form.get("servings"),
+            "publish": publish,
+            "recipe_ingredients": request.form.get("recipe_ingredients"),
+            "steps": request.form.get("steps")
+        }
+        mongo.db.recipes.update({"_id": ObjectId(recipe_id)}, submit)
+        flash("Recipe updated.")
+
+    recipe = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
+    libraries = mongo.db.libraries.find().sort("library_name", 1)
+    return render_template("edit_recipe.html", recipe=recipe, libraries=libraries)
+
+
+@app.route("/my_saved/<username>")
+def my_saved(username):
+    username = mongo.db.users.find_one(
+        {"username": session["user"]})
+    saved_recipes = username["saved"]
+    list_recipes = []
+    for saved in saved_recipes:
+        list_recipes.append(mongo.db.recipes.find_one(
+            {"_id": ObjectId(saved)}))
+    return render_template(
+        "my_saved.html", username=username, recipes=list_recipes)
 
 
 # how and where to run:

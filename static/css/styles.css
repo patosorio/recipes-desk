@@ -3,12 +3,14 @@ body{
     font-weight: light;
     background-color: rgba(247,247,247,0.5);
 }
+
 #logo{
     font-family: 'Nixie One', cursive;
     font-size: 3rem;
     text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
     padding-left: 15px;
 }
+
 @media (max-width: 375px) {
     .sidenav{
         width: 40%;
@@ -18,7 +20,6 @@ body{
 .uppercase{
     text-transform: uppercase;
 }
-
 
 .lowercase{
     text-transform: lowercase!important;
