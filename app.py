@@ -21,7 +21,8 @@ mongo = PyMongo(app)
 @app.route("/get_recipes")
 def get_recipes():
     recipes = list(mongo.db.recipes.find())
-    libraries = mongo.db.libraries.find().sort("library_name", 1)
+    libraries = mongo.db.libraries.find(
+        {"username": session["user"]}).sort("library_name", 1)
     return render_template(
         "recipes.html", recipes=recipes, libraries=libraries)
 
@@ -135,12 +136,13 @@ def add_saved(recipe_id):
     return get_recipes()
 
 
-@app.route("/add_library/<recipe_id>")
+@app.route("/add_library/<recipe_id>", methods=["GET", "POST"])
 def add_library(recipe_id):
-    mongo.db.libraries.update(
-        {"library_name": request.form.get("library_name")},
-        {'$addToSet': {"recipes_id": ObjectId(recipe_id)}}
-    )
+    if request.method == "POST":
+        mongo.db.libraries.update(
+            {"library_name": request.form.get("library_name")},
+            {'$addToSet': {"recipes_id": ObjectId(recipe_id)}}
+        )
     return get_recipes()
 
 
