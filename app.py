@@ -17,13 +17,21 @@ app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 mongo = PyMongo(app)
 
 
-@app.route("/")
+@app.route("/")  
 @app.route("/get_recipes")
 def get_recipes():
     recipes = list(mongo.db.recipes.find())
     libraries = mongo.db.libraries.find().sort("library_name", 1)
     return render_template(
         "recipes.html", recipes=recipes, libraries=libraries)
+
+
+
+@app.route("/recipe_info/<recipe_id>")
+def recipe_info(recipe_id):
+    recipe_data = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
+    return render_template("recipe_info.html", recipe=recipe_data)
+
 
 
 @app.route("/sign_up", methods=["GET", "POST"])
@@ -85,11 +93,13 @@ def login():
     return render_template("login.html")
 
 
+
 @app.route("/logout")
 def logout():
     flash("You have been logged out")
     session.pop('user')
     return redirect(url_for("get_recipes"))
+
 
 
 @app.route("/my_recipes/<username>")

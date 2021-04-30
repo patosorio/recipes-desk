@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3 class="center-align teal-text uppercase bold">{{ recipe.recipe_name }}</h3>
+
+<div class="row">
+    <div class="col s12 center-align">
+        <p>{{ recipe.recipe_description }}</p>
+        <p>PREP TIME: {{ recipe.prep_time }}</p>
+        <p>COOK TIME: {{ recipe.cook_time }}</p>
+        <div class="ingredients">
+            {{ recipe.recipe_ingredients }}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
