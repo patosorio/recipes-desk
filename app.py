@@ -33,7 +33,6 @@ def recipe_info(recipe_id):
     return render_template("recipe_info.html", recipe=recipe_data)
 
 
-
 @app.route("/sign_up", methods=["GET", "POST"])
 def sign_up():
     if request.method == "POST":
@@ -93,7 +92,6 @@ def login():
     return render_template("login.html")
 
 
-
 @app.route("/logout")
 def logout():
     flash("You have been logged out")
@@ -118,21 +116,29 @@ def my_recipes(username):
 @app.route("/add_recipe", methods=["GET", "POST"])
 def add_recipe():
     if request.method == "POST":
-        publish = "yes" if request.form.get("publish") else "no"
-        recipe = {
-            "recipe_name": request.form.get("recipe_name"),
-            "created_by": session["user"],
-            "recipe_description": request.form.get("recipe_description"),
-            "prep_time": request.form.get("prep_time"),
-            "cook_time": request.form.get("cook_time"),
-            "servings": request.form.get("servings"),
-            "publish": publish,
-            "recipe_ingredients": request.form.get("recipe_ingredients"),
-            "steps": request.form.get("steps")
-        }
-        mongo.db.recipes.insert_one(recipe)
-        flash("Your recipe book has been updated!")    
-        return redirect(url_for('my_recipes', username=session['user']))
+
+        # CHECK if recipe exist
+        existing_recipe = mongo.db.recipes.find_one(
+            {"recipe_name": request.form.get("recipe_name").lower()},
+            {"created_by": session["user"]})
+
+        if existing_recipe:
+            flash("You have already created a recipe with this exact name.")
+        else:
+            publish = "yes" if request.form.get("publish") else "no"
+            recipe = {
+                "recipe_name": request.form.get("recipe_name"),
+                "created_by": session["user"],
+                "recipe_description": request.form.get("recipe_description"),
+                "prep_time": request.form.get("prep_time"),
+                "cook_time": request.form.get("cook_time"),
+                "servings": request.form.get("servings"),
+                "publish": publish,
+                "recipe_ingredients": request.form.getlist("recipe_ingredients"),
+                "steps": request.form.get("steps")
+            }
+            mongo.db.recipes.insert_one(recipe)
+            flash("Your recipe book has been updated!") 
 
     return render_template("add_recipe.html")
 
@@ -143,6 +149,7 @@ def add_saved(recipe_id):
         {"username": session["user"]},
         {'$addToSet': {"saved": ObjectId(recipe_id)}}
     )
+    flash("Added to favorites!")
     return get_recipes()
 
 
@@ -177,6 +184,18 @@ def edit_recipe(recipe_id):
     recipe = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
     libraries = mongo.db.libraries.find().sort("library_name", 1)
     return render_template("edit_recipe.html", recipe=recipe, libraries=libraries)
+
+
+@app.route("/delete_recipe/<recipe_id>")
+def delete_recipe(recipe_id):
+    mongo.db.recipes.remove({"_id": ObjectId(recipe_id)})
+    username = session['user']
+    mongo.db.users.update(
+        {"username": session['user']},
+        {"$pull": {"saved": ObjectId(recipe_id)}})
+    flash("Recipe Successfully Deleted")
+    return my_recipes(username)
+    
 
 
 @app.route("/my_saved/<username>")

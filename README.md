@@ -100,6 +100,7 @@ In this section, you should mention all of the languages, frameworks, libraries,
 1. Home page:
 
 
+
 In this section, you need to convince the assessor that you have conducted enough testing to legitimately believe that the site works well. Essentially, in this part you will want to go over all of your user stories from the UX section and ensure that they all work as intended, with the project providing an easy and straightforward way for the users to achieve their goals.
 
 Whenever it is feasible, prefer to automate your tests, and if you've done so, provide a brief explanation of your approach, link to the test file(s) and explain how to run them.
@@ -141,3 +142,10 @@ In addition, if it is not obvious, you should also describe how to run your code
 ### Acknowledgements
 
 - I received inspiration for this project from X
+
+
+
+
+
+javascript in put fields
+https://jsfiddle.net/Spokey/XHpXy/
