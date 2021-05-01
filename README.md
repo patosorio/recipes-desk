@@ -69,12 +69,13 @@ FAVORITES
 This section will contain all recipes marked as favorite by user. 
 
 
-
 In addition, you may also use this section to discuss plans for additional features to be implemented in the future:
 
 ### Features Left to Implement
 - Another feature idea is to be able to see other users profile. 
 - Another feature idea is to request for image to user and have them displayed. 
+- Validation in forms
+- Add to more than one Library
 
 ## Technologies Used
 
@@ -89,6 +90,11 @@ In this section, you should mention all of the languages, frameworks, libraries,
 
 - MongoDB: Since the project requires database to save the data of any user registered so they can log in and log out as many times without losing any sved updates on their profiles. 
 
+    - COLLECTION FOR THIS PROJECT:
+        - USERS, with username, password and saved recipes for displaying later
+        - RECIPES, all recipe info to display for user
+        - LIBRARIES, libraries created by user
+
 - Heroku: I have connected the github to heroku to deploy and displpay the page. 
 
 
@@ -98,54 +104,41 @@ In this section, you should mention all of the languages, frameworks, libraries,
 
 
 1. Home page:
+From home page there are not functionalities active if you are not a registered user, so you can see recipes but not intereact with them, if any of this functionalities are clicked the log in page is displayed. 
 
+- Log In: I logged in into the page with no problem, redirected to home page with all recipes.
+- Sign up: I tried to sign up and the user has been registered in mongoDB correctly.
 
+**REGISTERED USER**
 
-In this section, you need to convince the assessor that you have conducted enough testing to legitimately believe that the site works well. Essentially, in this part you will want to go over all of your user stories from the UX section and ensure that they all work as intended, with the project providing an easy and straightforward way for the users to achieve their goals.
+1. Home Page:
+I see the recipes if are made by me in the home page, and the recipes made by other I can see but I can't modify, buttons don't appear.
+Added to favorites is working.
+Added to library is not, will be a feature to add in the future
+Edit recipe working
+Remove recipe working
 
-Whenever it is feasible, prefer to automate your tests, and if you've done so, provide a brief explanation of your approach, link to the test file(s) and explain how to run them.
+2. My recipes:
+Only diesplays the recipes made by user and has same funcitonalities as in Home page. 
 
-For any scenarios that have not been automated, test the user stories manually and provide as much detail as is relevant. A particularly useful form for describing your testing process is via scenarios, such as:
+3. Add recipe:
+Validation still need to activate. When user add the recipe is correctly updated to mongoDB although the validation should be useful to avoid weird recipes as empty values. 
 
-1. Contact form:
-    1. Go to the "Contact Us" page
-    2. Try to submit the empty form and verify that an error message about the required fields appears
-    3. Try to submit the form with an invalid email address and verify that a relevant error message appears
-    4. Try to submit the form with all inputs valid and verify that a success message appears.
+4. Favorites:
+The favorites page will show all recipes marked as favorites, although a nice feature to implement is to be abel to remove from favorites. This hasn't been implemented yet.
 
-In addition, you should mention in this section how your project looks and works on different browsers and screen sizes.
+5. Libraries
+Feature to be implemented.
 
-You should also mention in this section any interesting bugs or problems you discovered during your testing, even if you haven't addressed them yet.
+It works and looks fine in big screens and small screens. When adding the recipe there is a small bug with the label that doesn't show a nice design for mobile options but will also be a feature to fix. 
 
-If this section grows too long, you may want to split it off into a separate file and link to it from here.
 
 ## Deployment
 
-This section should describe the process you went through to deploy the project to a hosting platform (e.g. GitHub Pages or Heroku).
+I used heroku to deploy the project. 
+The deployed project looks the same but in the working environment there are delicate files that cannot be share, although the file that can't be share are environment variables that are correectly configured at Heroku Config Vars,
 
-In particular, you should provide all details of the differences between the deployed version and the development version, if any, including:
-- Different values for environment variables (Heroku Config Vars)?
-- Different configuration files?
-- Separate git branch?
-
-In addition, if it is not obvious, you should also describe how to run your code locally.
+The only branch used is the master branch. 
 
 
 ## Credits
-
-### Content
-- The text for section Y was copied from the [Wikipedia article Z](https://en.wikipedia.org/wiki/Z)
-
-### Media
-- The photos used in this site were obtained from ...
-
-### Acknowledgements
-
-- I received inspiration for this project from X
-
-
-
-
-
-javascript in put fields
-https://jsfiddle.net/Spokey/XHpXy/

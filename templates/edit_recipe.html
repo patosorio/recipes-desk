@@ -52,17 +52,6 @@
                 </div>
             </div>
             <div class="row">
-                <div class="input-field col s12">
-                    <select id="library_name" name="library_name" multiple>
-                        <option value="" disabled selected>My libraries</option>
-                        {% for library in libraries %}
-                            <option value="1">{{ library.library_name }}</option>
-                        {% endfor %}
-                    </select>
-                    <label>Add to a library?</label>
-                </div>
-            </div>
-            <div class="row">
                 <button type="submit" class="col s4 offset-m4 btn-large teal darken-2 text-lighten-4">Edit</button>
             </div>
         </form>

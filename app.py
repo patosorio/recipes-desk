@@ -17,14 +17,13 @@ app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 mongo = PyMongo(app)
 
 
-@app.route("/")  
+@app.route("/")
 @app.route("/get_recipes")
 def get_recipes():
     recipes = list(mongo.db.recipes.find())
     libraries = mongo.db.libraries.find().sort("library_name", 1)
     return render_template(
         "recipes.html", recipes=recipes, libraries=libraries)
-
 
 
 @app.route("/recipe_info/<recipe_id>")
@@ -60,7 +59,7 @@ def sign_up():
         # new user to session cookie
         session["user"] = request.form.get("username").lower()
         flash("Welcome to Rec!pe-Desk!")
-    return render_template("sign_up.html")
+    return render_template("recipes.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -72,18 +71,19 @@ def login():
 
         if existing_user:
             # check password hash
-            if check_password_hash(
-                existing_user["password"], request.form.get("password")):
+            if check_password_hash(existing_user["password"], request.form.get(
+                "password")):
                 # set session cookie to the current user
                 session['user'] = request.form.get("username").lower()
-                flash("Welcome, {}".format(
-                    request.form.get("username")))
-                return redirect(url_for('my_recipes', username=session['user']))         
+                flash("Welcome, {}".format(request.form.get("username")))
+                recipes = list(mongo.db.recipes.find())
+                libraries = mongo.db.libraries.find().sort("library_name", 1)
+                return render_template(
+                    "recipes.html", recipes=recipes, libraries=libraries)
             else:
-                # invalid password 
+                # invalid password
                 flash("Incorrect password or username.")
-                return redirect(url_for('login'))       
-        
+                return redirect(url_for('login'))
         else:
             # username doesn't exist
             flash("Incorrect password or username.")
@@ -96,8 +96,10 @@ def login():
 def logout():
     flash("You have been logged out")
     session.pop('user')
-    return redirect(url_for("get_recipes"))
-
+    recipes = list(mongo.db.recipes.find())
+    libraries = mongo.db.libraries.find().sort("library_name", 1)
+    return render_template(
+        "recipes.html", recipes=recipes, libraries=libraries)
 
 
 @app.route("/my_recipes/<username>")
@@ -107,16 +109,14 @@ def my_recipes(username):
     username = mongo.db.users.find_one(
         {"username": session["user"]})["username"]
     if session["user"]:
-        return render_template("my_recipes.html", username=username, recipes=user_recipes)
-        
-    return redirect(url_for('login'))
-
+        return render_template(
+            "my_recipes.html", username=username, recipes=user_recipes)
+    return redirect(url_for('login.html'))
 
 
 @app.route("/add_recipe", methods=["GET", "POST"])
 def add_recipe():
     if request.method == "POST":
-
         # CHECK if recipe exist
         existing_recipe = mongo.db.recipes.find_one(
             {"recipe_name": request.form.get("recipe_name").lower()},
@@ -134,12 +134,13 @@ def add_recipe():
                 "cook_time": request.form.get("cook_time"),
                 "servings": request.form.get("servings"),
                 "publish": publish,
-                "recipe_ingredients": request.form.getlist("recipe_ingredients"),
+                "recipe_ingredients": request.form.getlist(
+                    "recipe_ingredients"),
                 "steps": request.form.get("steps")
             }
             mongo.db.recipes.insert_one(recipe)
-            flash("Your recipe book has been updated!") 
-
+            flash("Your recipe book has been updated!")
+            return render_template("add_recipe.html")
     return render_template("add_recipe.html")
 
 
@@ -183,7 +184,8 @@ def edit_recipe(recipe_id):
 
     recipe = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
     libraries = mongo.db.libraries.find().sort("library_name", 1)
-    return render_template("edit_recipe.html", recipe=recipe, libraries=libraries)
+    return render_template(
+        "edit_recipe.html", recipe=recipe, libraries=libraries)
 
 
 @app.route("/delete_recipe/<recipe_id>")
@@ -195,7 +197,6 @@ def delete_recipe(recipe_id):
         {"$pull": {"saved": ObjectId(recipe_id)}})
     flash("Recipe Successfully Deleted")
     return my_recipes(username)
-    
 
 
 @app.route("/my_saved/<username>")

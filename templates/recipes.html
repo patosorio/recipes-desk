@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h3 class="center-align teal-text uppercase bold">All Recipes</h3>  
+<h3 class="center-align teal-text uppercase bold">ALL RECIPES</h3>  
 
     {% for recipe in recipes %}
         {% if recipe.publish == "yes" %}
@@ -24,22 +24,6 @@
                                 <a id="" href="{{ url_for('edit_recipe', recipe_id=recipe._id) }}"><i class="far fa-edit"></i></a>
                                 <a id="" href="{{ url_for('delete_recipe', recipe_id=recipe._id) }}"><i class="far fa-trash-alt"></i></a>
                                 <a id="" href="{{ url_for('add_library', recipe_id=recipe._id) }}"><i class="far fa-bookmark"></i></a>
-                                <a id="" class="btn modal-trigger" href="#modal1"><i class="far fa-bookmark"></i></a>
-                                <div id="modal1" class="modal">
-                                    <div class="modal-content">
-                                        <form class="col s12" method="POST" action="{{ url_for('add_library', recipe_id=recipe._id) }}">
-                                            <div class="input-field col s12">
-                                                <select id="library_name" name="library_name">
-                                                    {% for library in libraries %}
-                                                            <option value="">{{ library.library_name }}</option>
-                                                    {% endfor %}
-                                                </select>
-                                                <label for="library_name">Add to a library?</label>
-                                            </div>
-                                            <button type="submit" class="btn waves-effect waves-green btn-flat">Add to library</button>
-                                        </form>
-                                    </div>
-                                </div>
                                 {% endif %}
                             {% else %}
                                 <a href="{{ url_for('login') }}" class="lowercase underline grey-text text-darken-4">Created by_ {{ recipe.created_by }}</a> 

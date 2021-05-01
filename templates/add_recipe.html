@@ -7,7 +7,7 @@
     <form class="col s12" method="POST" action="{{ url_for('add_recipe') }}">
         <div class="row">
             <div class="input-field col s6">
-                <input id="recipe_name" name="recipe_name" type="text" data-length="40">
+                <input id="recipe_name" name="recipe_name" type="text" data-length="40" class="">
                 <label for="recipe_name">Recipe Name</label>
             </div>
         </div>
@@ -20,7 +20,7 @@
         
         <div class="row">
             <div class="input-field col s3">
-                <input id="prep_time" name="prep_time" type="number" class="materialize-textarea" data-length="4"></input>
+                <input id="prep_time" name="prep_time" type="number" class="materialize-textarea validate" data-length="4"></input>
                 <label for="prep_time">PREP TIME - MIN<i class="teal-text far fa-clock"></i></label>
             </div>
             <div class="input-field col s3">
@@ -58,17 +58,7 @@
                 <button class="addStep">Add field <i class="fas fa-plus"></i></button>
             </div>
         </div>
-        <div class="row">
-            <div class="input-field col s12">
-                <select id="library_name" name="library_name" multiple>
-                    <option value="" disabled selected>My libraries</option>
-                    {% for library in libraries %}
-                        <option value="1">{{ library.library_name }}</option>
-                    {% endfor %}
-                </select>
-                <label>Add to a library?</label>
-            </div>
-        </div>
+    
         <div class="row">
             <button type="submit" class="col s4 offset-m4 btn-large teal darken-2 text-lighten-4">ADD RECIPE</button>
         </div>
